@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <property name="format" value="[%-5level] %date %-15logger{15} - %m%n" />
+
+  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>F:/tmp/github/file-upload-download-in-jaxrs/sample.log</file>
+    <encoder>
+      <charset>UTF-8</charset>
+      <pattern>${format}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${format}</pattern>
+    </encoder>
+  </appender>
+
+  <root>
+    <appender-ref ref="CONSOLE" />
+    <appender-ref ref="FILE" />
+  </root>
+</configuration>
