@@ -4,12 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
 import org.apache.commons.fileupload.FileItemIterator;
@@ -32,10 +33,6 @@ public class SampleResource {
     @POST
     public void file(@Context HttpServletRequest request) {
         
-        FileUploadHelper helper = new FileUploadHelper();
-        
-        
-        
         System.out.println("file upload");
         
         ServletFileUpload upload = new ServletFileUpload();
@@ -57,6 +54,27 @@ public class SampleResource {
             }
         } catch (FileUploadException | IOException e) {
             e.printStackTrace();
+        }
+    }
+    
+    @GET
+    @Path("/download")
+    @Produces("text/csv")
+    public void download(@Context HttpServletResponse response) {
+        DownloadFileWriter writer = new DownloadFileWriter(response);
+
+        writer.setFileName("test.csv");
+        
+        try {
+            for (int i=0; i<100; i++) {
+                writer.println("ほげ," + i);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
         }
     }
 }
